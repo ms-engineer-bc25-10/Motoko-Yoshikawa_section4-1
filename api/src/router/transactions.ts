@@ -1,3 +1,4 @@
+console.log("🚀 transactions Router が読み込まれたよ！");
 import { error } from "console";
 import { Router } from "express";
 const router = Router();
@@ -35,27 +36,34 @@ router.get("/:id", async (req, res) => {
 
 // POST /transactions
 router.post("/", async (req, res) => {
+  console.log("📩 受け取ったデータ raw:", req.body);
   try {
+    console.log("📩 バリデーション前:", req.body);
+
     const { date, type, amount, memo } = req.body;
 
-    if (typeof amount !== "number") {
+    const amountNumber = Number(amount);
+    console.log("📌 数値変換後:", amountNumber);
+
+    if (isNaN(amountNumber)) {
       return res.status(400).json({ error: "amount must be a number" });
     }
 
-    // バリデーション（今のままでOK）
+    // --- DB 登録 ---
     const newTransaction = await prisma.transaction.create({
       data: {
-        date,
+        date: new Date(date),   // 必須：Prisma の DateTime は Date 型
         type,
-        amount,
+        amount: amountNumber,
         memo: memo || ""
       }
     });
 
-    return res.status(201).json(newTransaction);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.json(newTransaction);
+
+  } catch (error) {
+    console.error("POST /transactions error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
