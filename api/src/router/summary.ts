@@ -1,12 +1,27 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { prisma } from '../context/prisma'; // ← これが必要！
+import { app } from '../app';
+
 const router = Router();
 
 // GET /summary
-router.get("/", (req, res) => {
+router.get('/', async (req, res) => {
+  const income = await prisma.transaction.aggregate({
+    _sum: { amount: true },
+    where: { type: 'income' },
+  });
+
+  const expense = await prisma.transaction.aggregate({
+    _sum: { amount: true },
+    where: { type: 'expense' },
+  });
+
+  const balance = (income._sum.amount ?? 0) - (expense._sum.amount ?? 0);
+
   res.json({
-    income: 50000,
-    expense: 5250,
-    balance: 44750
+    income: income._sum.amount ?? 0,
+    expense: expense._sum.amount ?? 0,
+    balance,
   });
 });
 
