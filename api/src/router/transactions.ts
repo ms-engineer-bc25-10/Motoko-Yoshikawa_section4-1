@@ -38,30 +38,30 @@ router.get('/:id', async (req, res) => {
 
 //POST /transactions
 router.post('/', async (req, res) => {
-  // 🔥 ここに追加！
-  console.log('🔥🔥 POST /transactions に到達！ req.body:', req.body);
-
   try {
     const { date, type, amount, memo } = req.body;
+
+    // 必須項目チェック
+    if (!date || !type || !memo) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
     const amountNumber = Number(amount);
     if (isNaN(amountNumber)) {
       return res.status(400).json({ error: 'amount must be a number' });
     }
 
-    // ← ← ここで date を補正
-    const fixedDate = new Date(`${date}T00:00:00`);
-
+    //  Prisma にそのまま渡す
     const newTransaction = await prisma.transaction.create({
       data: {
-        date: fixedDate,
+        date, // ← そのまま！
         type,
         amount: amountNumber,
         memo: memo || '',
       },
     });
 
-    return res.json(newTransaction);
+    return res.status(201).json(newTransaction);
   } catch (error) {
     console.error('POST /transactions FULL ERROR:', error);
     return res.status(500).json({ error: String(error) });
