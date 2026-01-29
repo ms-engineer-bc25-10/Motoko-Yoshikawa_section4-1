@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    container_name: household-api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    volumes:
+      - ./api:/usr/src/app
+    environment:
+      DATABASE_URL: "mysql://user:userpass@db:3306/household"
+
+  db:
+    image: mysql:8.0
+    container_name: household-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: household
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

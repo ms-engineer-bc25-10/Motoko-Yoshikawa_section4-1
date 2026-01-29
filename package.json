@@ -1,0 +1,14 @@
+{
+  "name": "motoko-yoshikawa_section4-1",
+  "version": "1.0.0",
+  "description": "## 一覧画面 ![一覧画面](./images/image1.png)",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1"
+  }
+}

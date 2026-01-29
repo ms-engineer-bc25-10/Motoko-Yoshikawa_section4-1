@@ -1,0 +1,53 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // // 入力ファイルと出力ファイルの場所
+    "rootDir": "./src",
+    "outDir": "./build",
+    // import を綺麗に使うため
+    "esModuleInterop": true,
+    // Node.js の標準モジュールを使えるようにする
+    "types": ["node"],
+
+    // Environment Settings
+    // Node 用のモジュールシステム
+    "module": "commonjs",
+    // 出力する JavaScript のバージョン
+    "target": "es6",
+    //"types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    //"sourceMap": true,
+    //"declaration": true,
+    //"declarationMap": true,
+
+    // Stricter Typechecking Options
+    //"noUncheckedIndexedAccess": true,
+    //"exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    // 厳格モード
+    "strict": true,
+    //"jsx": "react-jsx",
+    //"verbatimModuleSyntax": true,
+    //"isolatedModules": true,
+    //"noUncheckedSideEffectImports": true,
+    //"moduleDetection": "force",
+    // ライブラリの型チェックはスキップして高速化
+    "skipLibCheck": true
+  },
+  // このフォルダ内の .ts を全部 TS の対象にする
+  "include": ["src/**/*"]
+}
